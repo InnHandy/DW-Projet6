@@ -1,13 +1,6 @@
-//code avec le framework express
-
 const http = require('http');
 const app = require('./app');
-
 app.set('port', process.env.PORT || 3000);
 const server = http.createServer(app);
-
+console.log('Hello début de projet');
 server.listen(process.env.PORT || 3000);
-
-
-
-

@@ -1,27 +1,24 @@
-// in controllers/stuff.js
-
-const Thing = require('../models/Thing');
+const Sauces = require('../models/sauces');
 const fs = require('fs');
 
-exports.createThing = (req, res, next) => {
-  const thingObject = JSON.parse(req.body.thing);
+exports.createSauce = (req, res, next) => {
   delete req.body._id;
-  const thing = new Thing({
-    ...thingObject,
+  const sauce = new User({
+    ...req.body,
     imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
   });
-  thing.save()
+  sauce.save()
     .then(() => res.status(201).json({ message: 'Objet enregistré !'}))
     .catch(error => res.status(400).json({ error }));
 };
 
 
-exports.getOneThing = (req, res, next) => {
-  Thing.findOne({
+exports.getOneSauce = (req, res, next) => {
+  Sauces.findOne({
     _id: req.params.id
   }).then(
-    (thing) => {
-      res.status(200).json(thing);
+    (sauce) => {
+      res.status(200).json(sauce);
     }
   ).catch(
     (error) => {
@@ -32,20 +29,20 @@ exports.getOneThing = (req, res, next) => {
   );
 };
 
-exports.modifyThing = (req, res, next) => {
-  const thingObject = req.file ?
+exports.modifySauce = (req, res, next) => {
+  const sauceObject = req.file ?
     {
-      ...JSON.parse(req.body.thing),
+      ...JSON.parse(req.body.sauce),
       imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     } : { ...req.body };
-  Thing.updateOne({ _id: req.params.id }, { ...thingObject, _id: req.params.id })
+  sauces.updateOne({ _id: req.params.id }, { ...sauceObject, _id: req.params.id })
     .then(() => res.status(200).json({ message: 'Objet modifié !'}))
     .catch(error => res.status(400).json({ error }));
 };
 
-exports.deleteThing = (req, res, next) => {
-  Thing.findOne({ _id: req.params.id })
-    .then(thing => {
+exports.deleteSauce = (req, res, next) => {
+  Sauces.findOne({ _id: req.params.id })
+    .then(sauce => {
       const filename = thing.imageUrl.split('/images/')[1];
       fs.unlink(`images/${filename}`, () => {
         Thing.deleteOne({ _id: req.params.id })
@@ -56,10 +53,10 @@ exports.deleteThing = (req, res, next) => {
     .catch(error => res.status(500).json({ error }));
 };
 
-exports.getAllThings = (req, res, next) => {
-  Thing.find().then(
-    (things) => {
-      res.status(200).json(things);
+exports.getAllSauces = (req, res, next) => {
+  Sauces.find().then(
+    (sauces) => {
+      res.status(200).json(sauces);
     }
   ).catch(
     (error) => {

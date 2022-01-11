@@ -5,9 +5,9 @@ const app = express();
 const path = require('path');
 
 const saucesRoutes = require('./routes/sauces');
-const userRoutes = require('./routes/user');
+const authRoutes = require('./routes/auth');
 
-//cors
+//Erreur CORS
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
@@ -28,6 +28,6 @@ mongoose.connect('mongodb+srv://InnHandy:Nnocent87@cluster0.8leu6.mongodb.net/my
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
 app.use('/api/sauces', saucesRoutes); 
-app.use('/api/auth', userRoutes);
+app.use('/api/auth', authRoutes);
 
 module.exports = app;

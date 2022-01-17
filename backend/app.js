@@ -3,6 +3,10 @@ const mongoose = require('mongoose');
 const express = require('express');
 const app = express();
 const path = require('path');
+require('dotenv').config({path:'./.env'});
+const login = process.env.login;
+const Password = process.env.Password;
+
 
 const saucesRoutes = require('./routes/sauces');
 const usersRoutes = require('./routes/User');
@@ -19,7 +23,7 @@ app.use((req, res, next) => {
 app.use(express.json());
 
 //Connexion API et MongoDB
-mongoose.connect('mongodb+srv://InnHandy:Nnocent87@cluster0.8leu6.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
+mongoose.connect('mongodb+srv://'+'${login}'+':'+'${Password}'+'@cluster0.8leu6.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
   { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))
